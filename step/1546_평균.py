@@ -9,10 +9,10 @@ for i in x:
     score.append(int(i))
 
 score.sort()
-max = score[n-1]
+max_num = score[n - 1]
 
 for i in range(0, n):
-    score[i] = score[i]/max*100
+    score[i] = score[i] / max_num * 100
 
 for i in score:
     avg += i

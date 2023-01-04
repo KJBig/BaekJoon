@@ -1,7 +1,7 @@
 alpha ="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 count = [0 for i in range(0,26)]
 where = 0
-max = 0
+max_num = 0
 same = 0
 
 st = input()
@@ -12,11 +12,11 @@ for i in st:
             count[j] += 1
 
 for i in range(0, len(count)):
-    if max < count[i]:
-        max = count[i]
+    if max_num < count[i]:
+        max_num = count[i]
         where = i
         same = 0
-    elif max == count[i]:
+    elif max_num == count[i]:
         same = 1
 
 if same == 1:
