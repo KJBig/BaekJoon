@@ -1,5 +1,4 @@
 import sys
-
 ssr = sys.stdin.readline
 
 N = int(ssr())
@@ -9,16 +8,16 @@ Liquids.sort()
 left = 0
 right = N - 1
 
-answer = abs(Liquids[left] + Liquids[right])
+result = abs(Liquids[left] + Liquids[right])
 final = [Liquids[left], Liquids[right]]
 
 while left < right:
     sumM = Liquids[left] + Liquids[right]
 
-    if abs(sumM) < answer:
-        answer = abs(sumM)
+    if abs(sumM) < result:
+        result = abs(sumM)
         final = [Liquids[left], Liquids[right]]
-        if answer == 0:
+        if result == 0:
             break
     if sumM < 0:
         left += 1
