@@ -1,24 +1,37 @@
-def dfs(now, count):
-    global G, U, D
-    visited[now] = 1
+from collections import deque
 
-    if now == G:
-        print(count)
-        exit()
+N, M, V = list(map(int, input().split()))
 
-    if G > now:
-        move = U
-    else:
-        move = -D
+matrix = [[0] * (N + 1) for i in range(N + 1)]
 
-    if visited[now + move]:
-        print("user the stairs")
-        exit()
+visited_dfs = [0] * (N + 1)
+visited_bfs = [0] * (N + 1)
 
-    dfs(now + move, count + 1)
+for i in range(M):
+    a, b = map(int, input().split())
+    matrix[a][b] = matrix[b][a] = 1
 
 
-F, S, G, U, D = map(int, input().split())
+def dfs(V):
+    visited_dfs[V] = 1
+    print(V, end=' ')
+    for i in range(1, N + 1):
+        if (visited_dfs[i] == 0 and matrix[V][i] == 1):
+            dfs(i)
 
-visited = [0 for _ in range(F+1)]
-dfs(S, 0)
+
+def bfs(V):
+    queue = deque([V])
+    visited_bfs[V] = 1
+
+    while queue:
+        V = queue.popleft()
+        print(V, end=' ')
+        for i in range(1, N + 1):
+            if (visited_bfs[i] == 0 and matrix[V][i] == 1):
+                queue.append(i)
+                visited_bfs[i] = 1
+
+dfs(V)
+print()
+bfs(V)

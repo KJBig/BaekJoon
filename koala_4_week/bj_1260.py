@@ -17,7 +17,7 @@ def bfs(v):
         return "use the stairs"
 
 
-F, S, G, U, D = map(int, input().split())
+N,  = map(int, input().split())
 visited = [0 for i in range(F + 1)]
 count = [0 for i in range(F + 1)]
 print(bfs(S))

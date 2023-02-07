@@ -1,44 +1,73 @@
+# from collections import deque
+#
+#
+# def bfs(u):
+#     que = deque()
+#     que.append(u)
+#
+#     while que:
+#         nu = que.popleft()
+#         for i in ary[nu]:
+#             if visited[i] == 0:
+#                 visited[i] = 1
+#                 que.append(i)
+#
+#
+# N, M = map(int, input().split())
+#
+# ary = [[] for _ in range(N+1)]
+# visited = [0 for _ in range(N + 1)]
+# count = 0
+#
+# for _ in range(M):
+#     u, v = map(int, input().split())
+#     ary[u].append(v)
+#     ary[v].append(u)
+#
+# for i in range(1, N+1):
+#     if visited[i] == 0:
+#         if ary[i]:
+#             bfs(i)
+#         visited[i] = 1
+#         count += 1
+#
+# print(count)
+
+
 from collections import deque
 
 
-def bfs(y, x, visit):
-    que = deque()
-    que.append((y, x))
-    visit[y][x] = 1
-
-    while que:
-        ny, nx = que.popleft()
-        for i in range(4):
-            ty = ny + dy[i]
-            tx = nx + dx[i]
-
-            if -1 < ty < N and -1 < tx < M and visit[ty][tx] == 0 and [tx, ty] in ary:
-                que.append((ty, tx))
-                visit[ty][tx] = 1
+def bfs(start):
+    queue = deque([start])
+    visited[start] = True
+    while queue:
+        node = queue.popleft()
+        for i in graph[node]:
+            if not visited[i]:
+                visited[i] = True
+                queue.append(i)
 
 
-dx = [0, 0, 1, -1]
-dy = [1, -1, 0, 0]
+N, M = map(int, input().split())
+graph = [[] for _ in range(N + 1)]
 
-T = int(input())
-for _ in range(T):
-    ary = []
-    visited = []
-    M, N, T = map(int, input().split())
+for _ in range(M):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
 
-    for i in range(N):
-        temp = [0 for _ in range(M)]
-        visited.append(temp)
 
-    for _ in range(T):
-        ary.append(list(map(int, input().split())))
+visited = [False] * (1 + N)
+count = 0
 
-    count = 0
-    for i in ary:
-        x = i[0]
-        y = i[1]
-        if visited[y][x] == 0:
-            bfs(y, x, visited)
+
+for i in range(1, N + 1):
+    if not visited[i]:
+        if not graph[i]:
+            count += 1
+            visited[i] = True
+        else:
+            bfs(i)
             count += 1
 
-    print(count)
+print(count)

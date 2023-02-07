@@ -1,20 +1,34 @@
-import sys
+n, c = map(int, input().split())
 
-ssr = sys.stdin.readline
+house = []
+for i in range(n):
+    house.append(int(input()))
 
-N, K = map(int, ssr().split())
+house.sort()
 
-po = [int(ssr()) for _ in range(N)]
-result = [-1 for _ in range(N)]
 
-now = po[0]
-result[0] = 0
-count = 0
+def binary_search(left, right):
+    while left <= right:
+        mid = (left + right) // 2
+        current = house[0]
+        count = 1
 
-for i in range(N):
-    count += 1
-    if result[now] == -1:
-        result[now] = count
-    now = po[now]
+        for i in range(1, len(house)):
+            if house[i] >= current + mid:
+                count += 1
+                current = house[i]
 
-print(result[K])
+        if count >= c:
+            global result
+            left = mid + 1
+            result = mid
+        else:
+            right = mid - 1
+
+
+start = 1
+end = house[-1] - house[0]
+result = 0
+
+binary_search(start, end)
+print(result)

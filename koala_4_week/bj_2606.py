@@ -1,37 +1,32 @@
 from collections import deque
 
-N, M, V = list(map(int, input().split()))
 
-matrix = [[0] * (N + 1) for i in range(N + 1)]
+def bfs(que):
+    count = 0
 
-visited_dfs = [0] * (N + 1)
-visited_bfs = [0] * (N + 1)
+    while que:
+        x = que.popleft()
+        visited[x] = 1
+        for i in computers[x]:
+            if visited[i] == 0:
+                visited[i] = 1
+                count += 1
+                que.append(i)
 
-for i in range(M):
-    a, b = map(int, input().split())
-    matrix[a][b] = matrix[b][a] = 1
-
-
-def dfs(V):
-    visited_dfs[V] = 1
-    print(V, end=' ')
-    for i in range(1, N + 1):
-        if (visited_dfs[i] == 0 and matrix[V][i] == 1):
-            dfs(i)
+    return count
 
 
-def bfs(V):
-    queue = deque([V])
-    visited_bfs[V] = 1
+N = int(input())
+M = int(input())
 
-    while queue:
-        V = queue.popleft()
-        print(V, end=' ')
-        for i in range(1, N + 1):
-            if (visited_bfs[i] == 0 and matrix[V][i] == 1):
-                queue.append(i)
-                visited_bfs[i] = 1
+computers = [[] for i in range(N + 1)]
+visited = [0 for _ in range(N + 1)]
 
-dfs(V)
-print()
-bfs(V)
+for _ in range(M):
+    q, w = map(int, input().split())
+    computers[q].append(w)
+    computers[w].append(q)
+
+que = deque()
+que.append(1)
+print(bfs(que))

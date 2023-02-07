@@ -1,44 +1,51 @@
 from collections import deque
 
 
-def bfs(y, x, visit):
-    que = deque()
-    que.append((y, x))
-    visit[y][x] = 1
-
+def bfs(que):
     while que:
-        ny, nx = que.popleft()
+        y, x = que.popleft()
         for i in range(4):
-            ty = ny + dy[i]
-            tx = nx + dx[i]
+            ty = y + dy[i]
+            tx = x + dx[i]
 
-            if -1 < ty < N and -1 < tx < M and visit[ty][tx] == 0 and [tx, ty] in ary:
+            if -1 < ty < N and -1 < tx < M and visited[ty][tx] == 0 and field[ty][tx] == 0:
                 que.append((ty, tx))
-                visit[ty][tx] = 1
+                visited[ty][tx] = 1
+                field[ty][tx] = field[y][x] + 1
 
 
-dx = [0, 0, 1, -1]
-dy = [1, -1, 0, 0]
+dy = [0, 0, 1, -1]
+dx = [1, -1, 0, 0]
 
-T = int(input())
-for _ in range(T):
-    ary = []
-    visited = []
-    M, N, T = map(int, input().split())
+M, N = map(int, input().split())
 
-    for i in range(N):
-        temp = [0 for _ in range(M)]
-        visited.append(temp)
+field = []
+visited = []
+count = 0
+que = deque()
 
-    for _ in range(T):
-        ary.append(list(map(int, input().split())))
+for _ in range(N):
+    field.append(list(map(int, input().split())))
 
-    count = 0
-    for i in ary:
-        x = i[0]
-        y = i[1]
-        if visited[y][x] == 0:
-            bfs(y, x, visited)
-            count += 1
+for _ in range(N):
+    visited.append([0 for _ in range(M)])
 
-    print(count)
+for i in range(N):
+    for j in range(M):
+        if field[i][j] == 1:
+            que.append((i, j))
+
+bfs(que)
+day = 0
+
+for i in range(N):
+    for j in range(M):
+        if field[i][j] == 0:
+            print(-1)
+            exit()
+        day = max(day, field[i][j])
+
+if day == 1:
+    print(0)
+else:
+    print(day - 1)
